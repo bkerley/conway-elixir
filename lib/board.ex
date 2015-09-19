@@ -61,5 +61,8 @@ defmodule Board do
     %Board{live: Enum.reduce(alive_coords, HashSet.new, fn(coord, set) ->
       Set.put(set, coord)
     end)}
+
+  def with_live_set(set) do
+    %Board{live: set}
   end
 end
