@@ -51,16 +51,19 @@ defmodule Board do
   end
 
   def iterate(board = %Board{}) do
-    consider = Set.to_list(Board.under_consideration(board))
-    alive_coords = Enum.filter(consider, fn(coord) ->
+    board
+    |> Board.under_consideration
+    |> Set.to_list
+    |> Enum.filter(fn(coord) ->
       cell = cell_at(board, coord)
       neighbors = count_neighbors(board, coord)
       Cell.lives_with_neighbors(cell, neighbors)
     end)
-
-    %Board{live: Enum.reduce(alive_coords, HashSet.new, fn(coord, set) ->
+    |> Enum.reduce(HashSet.new, fn(coord, set) ->
       Set.put(set, coord)
-    end)}
+    end)
+    |> with_live_set
+  end
 
   def with_live_set(set) do
     %Board{live: set}
