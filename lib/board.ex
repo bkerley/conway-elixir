@@ -47,7 +47,10 @@ defmodule Board do
   end
 
   def count_neighbors(%Board{live: live}, coord = %Coord{}) do
-    Set.size(Set.intersection(live, Coord.neighbors(coord)))
+    coord
+    |> Coord.neighbors
+    |> Set.intersection(live)
+    |> Set.size
   end
 
   def iterate(board = %Board{}) do
